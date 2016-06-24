@@ -42,7 +42,6 @@ export default class AsyncConnect extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     this.loadAsyncData(nextProps);
   }
 

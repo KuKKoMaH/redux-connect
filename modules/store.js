@@ -24,54 +24,54 @@ export const reducer = handleActions({
     loaded: true,
   }),
 
-  [LOAD]: (state, { payload }) => ({
-    ...state,
-    loadState: {
-      ...state.loadState,
-      [payload.key]: {
-        loading: true,
-        loaded: false,
-      },
-    },
-  }),
-
-  [LOAD_SUCCESS]: (state, { payload: { key, data } }) => ({
-    ...state,
-    loadState: {
-      ...state.loadState,
-      [key]: {
-        loading: false,
-        loaded: true,
-        error: null,
-      },
-    },
-    [key]: data,
-  }),
-
-  [LOAD_FAIL]: (state, { payload: { key, error } }) => ({
-    ...state,
-    loadState: {
-      ...state.loadState,
-      [key]: {
-        loading: false,
-        loaded: false,
-        error,
-      },
-    },
-  }),
-
-  [CLEAR]: (state, { payload }) => ({
-    ...state,
-    loadState: {
-      ...state.loadState,
-      [payload]: {
-        loading: false,
-        loaded: false,
-        error: null,
-      },
-    },
-    [payload]: null,
-  }),
+  //[LOAD]: (state, { payload }) => ({
+  //  ...state,
+  //  loadState: {
+  //    ...state.loadState,
+  //    [payload.key]: {
+  //      loading: true,
+  //      loaded: false,
+  //    },
+  //  },
+  //}),
+  //
+  //[LOAD_SUCCESS]: (state, { payload: { key, data } }) => ({
+  //  ...state,
+  //  loadState: {
+  //    ...state.loadState,
+  //    [key]: {
+  //      loading: false,
+  //      loaded: true,
+  //      error: null,
+  //    },
+  //  },
+  //  [key]: data,
+  //}),
+  //
+  //[LOAD_FAIL]: (state, { payload: { key, error } }) => ({
+  //  ...state,
+  //  loadState: {
+  //    ...state.loadState,
+  //    [key]: {
+  //      loading: false,
+  //      loaded: false,
+  //      error,
+  //    },
+  //  },
+  //}),
+  //
+  //[CLEAR]: (state, { payload }) => ({
+  //  ...state,
+  //  loadState: {
+  //    ...state.loadState,
+  //    [payload]: {
+  //      loading: false,
+  //      loaded: false,
+  //      error: null,
+  //    },
+  //  },
+  //  [payload]: null,
+  //}),
 
 }, initialState);
 
@@ -85,12 +85,14 @@ export const load = createAction(LOAD, (key) => ({
   key,
 }));
 
-export const loadSuccess = createAction(LOAD_SUCCESS, (key, data) => ({
+export const loadSuccess = createAction(LOAD_SUCCESS, (key, data, options) => ({
   key,
   data,
+  options
 }));
 
-export const loadFail = createAction(LOAD_FAIL, (key, error) => ({
+export const loadFail = createAction(LOAD_FAIL, (key, error, options) => ({
   key,
   error,
+  options
 }));

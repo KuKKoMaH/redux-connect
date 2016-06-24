@@ -24,8 +24,8 @@ function wrapWithDispatch(asyncItems) {
           dispatch(load(key));
           // add action dispatchers
           next.then(
-            data => dispatch(loadSuccess(key, data)),
-            err => dispatch(loadFail(key, err))
+            data => dispatch(loadSuccess(key, data, options)),
+            err => dispatch(loadFail(key, err,  options))
           );
         } else if (next) {
           dispatch(loadSuccess(key, next));
@@ -58,7 +58,7 @@ export function asyncConnect(asyncItems, mapStateToProps, mapDispatchToProps, me
 
         return {
           ...result,
-          [key]: state.reduxAsyncConnect[key],
+          [key]: state[key],
         };
       }, {});
 
