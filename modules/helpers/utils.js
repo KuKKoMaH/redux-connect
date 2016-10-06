@@ -76,7 +76,9 @@ export function filterAndFlattenComponents(components) {
  * @param  {Function} [data.filter] - filtering function
  * @return {Promise}
  */
-export function loadAsyncConnect({ components, filter = () => true, ...rest }) {
+export function loadAsyncConnect(obj) {
+  const components = obj.components;
+  const filter = obj.filter || (() => true);
   const flattened = filterAndFlattenComponents(components);
 
   if (flattened.length === 0) {
@@ -91,7 +93,7 @@ export function loadAsyncConnect({ components, filter = () => true, ...rest }) {
     // get array of results
     const results = asyncItems.reduce((itemsResults, item) => {
       if (filter(item, component)) {
-        let promiseOrResult = item.promise(rest);
+        let promiseOrResult = item.promise(obj);
 
         if (isPromise(promiseOrResult)) {
           promiseOrResult = promiseOrResult.catch(error => ({ error }));
