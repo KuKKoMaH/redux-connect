@@ -4,12 +4,13 @@ import { loadAsyncConnect } from '../helpers/utils';
 
 export default class AsyncConnect extends Component {
   static propTypes = {
-    components: PropTypes.array.isRequired,
-    params: PropTypes.object.isRequired,
-    render: PropTypes.func.isRequired,
+    components:      PropTypes.array.isRequired,
+    params:          PropTypes.object.isRequired,
+    render:          PropTypes.func.isRequired,
     beginGlobalLoad: PropTypes.func.isRequired,
-    endGlobalLoad: PropTypes.func.isRequired,
-    helpers: PropTypes.any,
+    endGlobalLoad:   PropTypes.func.isRequired,
+    helpers:         PropTypes.any,
+    onLoadEnd: PropTypes.func,
   };
 
   static contextTypes = {
@@ -20,6 +21,7 @@ export default class AsyncConnect extends Component {
     render(props) {
       return <RouterContext {...props} />;
     },
+    onLoadEnd: () => {},
   };
 
   constructor(props, context) {
@@ -48,6 +50,11 @@ export default class AsyncConnect extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return this.state.propsToShow !== nextState.propsToShow;
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.onLoadEnd(prevState.propsToShow, this.state.propsToShow);
+  }
+
 
   isLoaded() {
     return this.context.store.getState().reduxAsyncConnect.loaded;
