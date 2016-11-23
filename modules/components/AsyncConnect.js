@@ -58,27 +58,13 @@ export default class AsyncConnect extends Component {
   }
 
   isOnlyHashLocationChanged(nextProps){
-    let isHashLocationChanged = false;
-    for (const key in nextProps) {
-      if (this.props[key] !== nextProps[key]) {
-        if (key === 'location') {
-          const nextLoc = nextProps[key];
-          const thisLoc = this.props[key];
-          if (
-            nextLoc.hash !== thisLoc.hash &&
-            nextLoc.partname === thisLoc.pathname &&
-            nextLoc.search === thisLoc.search
-          ) {
-            isHashLocationChanged = true;
-          } else {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      }
-    }
-    return isHashLocationChanged;
+    const nextLoc = nextProps.location;
+    const thisLoc = this.props.location;
+    if(nextLoc === thisLoc) return false;
+    return nextLoc.hash !== thisLoc.hash &&
+      nextLoc.action === thisLoc.action &&
+      nextLoc.pathname === thisLoc.pathname &&
+      nextLoc.search === thisLoc.search;
   }
 
   isLoaded() {
