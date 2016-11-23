@@ -61,10 +61,10 @@ export default class AsyncConnect extends Component {
     const nextLoc = nextProps.location;
     const thisLoc = this.props.location;
     if(nextLoc === thisLoc) return false;
-    return nextLoc.hash !== thisLoc.hash &&
-      nextLoc.action === thisLoc.action &&
-      nextLoc.pathname === thisLoc.pathname &&
-      nextLoc.search === thisLoc.search;
+    return nextLoc.hash !== thisLoc.hash
+      && nextLoc.action === "POP"
+      && nextLoc.pathname === thisLoc.pathname
+      && nextLoc.search === thisLoc.search;
   }
 
   isLoaded() {
