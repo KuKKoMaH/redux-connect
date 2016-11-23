@@ -44,7 +44,9 @@ export default class AsyncConnect extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.loadAsyncData(nextProps);
+    if(!this.isOnlyHashLocationChanged(nextProps)) {
+      this.loadAsyncData(nextProps);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -55,6 +57,29 @@ export default class AsyncConnect extends Component {
     this.props.onLoadEnd(prevState.propsToShow, this.state.propsToShow);
   }
 
+  isOnlyHashLocationChanged(nextProps){
+    let isHashLocationChanged = false;
+    for (const key in nextProps) {
+      if (this.props[key] !== nextProps[key]) {
+        if (key === 'location') {
+          const nextLoc = nextProps[key];
+          const thisLoc = this.props[key];
+          if (
+            nextLoc.hash !== thisLoc.hash &&
+            nextLoc.partname === thisLoc.pathname &&
+            nextLoc.search === thisLoc.search
+          ) {
+            isHashLocationChanged = true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+    }
+    return isHashLocationChanged;
+  }
 
   isLoaded() {
     return this.context.store.getState().reduxAsyncConnect.loaded;
