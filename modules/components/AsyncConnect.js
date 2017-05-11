@@ -45,7 +45,7 @@ export default class AsyncConnect extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!this.isOnlyHashLocationChanged(nextProps)) {
+    if(!this.isOnlyHashLocationChanged(nextProps) && !this.isReplace(nextProps)) {
       this.loadAsyncData(nextProps);
     }
   }
@@ -66,6 +66,10 @@ export default class AsyncConnect extends Component {
       && nextLoc.action === "POP"
       && nextLoc.pathname === thisLoc.pathname
       && nextLoc.search === thisLoc.search;
+  }
+
+  isReplace(nextProps) {
+    return nextProps.location.action === "REPLACE";
   }
 
   isLoaded() {
